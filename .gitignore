@@ -18,3 +18,5 @@ yarn-error.log
 /.idea
 /.vscode
 storage/logs/laravel.log
+database/seeders/VCardsTableSeeder.php
+database/seeders/VCardsTableSeeder.php
