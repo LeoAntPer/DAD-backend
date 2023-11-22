@@ -6,8 +6,8 @@ const io = require("socket.io")(httpServer, {
     credentials: true,
   },
 });
-httpServer.listen(5173, () => {
-  console.log("listening on *:5173");
+httpServer.listen(5174, () => {
+  console.log("listening on *:5174");
 });
 
 io.on("connection", (socket) => {
