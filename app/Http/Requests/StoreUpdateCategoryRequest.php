@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCategoryRequest extends FormRequest
+class StoreUpdateCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'vcard' => 'required|exists:vcard,id',
+            'type' => 'required|in:C,D',
+            'name' => 'required|string|max:255',
+            'custom_options' => 'nullable',
+            'custom_data' => 'nullable',
         ];
     }
 }

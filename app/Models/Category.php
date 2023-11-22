@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'vcard',
+        'type',
+        'name',
+        'custom_options',
+        'custom_data'
+    ];
 }
