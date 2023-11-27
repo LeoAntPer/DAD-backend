@@ -23,4 +23,19 @@ class Vcard extends Model
         'custom_options',
         'custom_data'
     ];
+
+    function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'vcard', 'phone_number');
+    }
+
+    function transactionsFrom()
+    {
+        return $this->hasMany(Transaction::class, 'pair_vcard', 'phone_number');
+    }
+
+    function categories()
+    {
+        return $this->hasMany(Category::class, 'vcard', 'phone_number');
+    }
 }

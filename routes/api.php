@@ -20,6 +20,8 @@ Route::post('users', [UserController::class, 'store']);
 Route::put('users/{user}', [UserController::class, 'update']);
 Route::delete('users/{user}', [UserController::class, 'destroy']);
 
+Route::resource('categories', CategoryController::class);
+
 Route::middleware('auth:api')->post(
     'logout',
     [AuthController::class, 'auth/logout']

@@ -24,4 +24,24 @@ class Transaction extends Model
         'custom_options',
         'custom_data'
     ];
+
+    function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    function vcard()
+    {
+        return $this->belongsTo(Vcard::class);
+    }
+
+    function pairVcard()
+    {
+        return $this->belongsTo(Vcard::class);
+    }
+
+    function pairTransaction()
+    {
+        return $this->belongsTo(Transaction::class, 'pair_transaction');
+    }
 }
