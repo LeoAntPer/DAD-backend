@@ -34,7 +34,6 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        $user->assignedUsers()->detach();
         $user->delete();
         return new UserResource($user);
     }
