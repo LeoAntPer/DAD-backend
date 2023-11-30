@@ -25,7 +25,7 @@ class Vcard extends Model
         'custom_options',
         'custom_data'
     ];
-
+  
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -49,5 +49,19 @@ class Vcard extends Model
 
     public function getRouteKeyName(){
         return 'phone_number';
+
+    function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'vcard', 'phone_number');
+    }
+
+    function transactionsFrom()
+    {
+        return $this->hasMany(Transaction::class, 'pair_vcard', 'phone_number');
+    }
+
+    function categories()
+    {
+        return $this->hasMany(Category::class, 'vcard', 'phone_number');
     }
 }

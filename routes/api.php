@@ -26,6 +26,8 @@ Route::post('vcards', [VcardController::class, 'store']);
 Route::put('vcards/{vcard}', [VcardController::class, 'update']);
 Route::delete('vcards/{vcard}', [VcardController::class, 'destroy']);
 
+Route::resource('categories', CategoryController::class);
+
 Route::middleware('auth:api')->post(
     'logout',
     [AuthController::class, 'auth/logout']
