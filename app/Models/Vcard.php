@@ -10,8 +10,10 @@ class Vcard extends Model
     use HasFactory;
 
     public $timestamps = false;
+    protected $primaryKey = 'phone_number';
 
     protected $fillable = [
+        'phone_number',
         'name',
         'email',
         'photo_url',
@@ -23,4 +25,29 @@ class Vcard extends Model
         'custom_options',
         'custom_data'
     ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'confirmation_code',
+        'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'password' => 'hashed',
+        'confirmation_code' => 'hashed'
+    ];
+
+    public function getRouteKeyName(){
+        return 'phone_number';
+    }
 }

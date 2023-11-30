@@ -13,12 +13,18 @@ Route::post('auth/login', [AuthController::class, 'login']);
 Route::middleware('auth:api')->group(function() {
     Route::apiResource('categories', CategoryController::class);
 });
-
+//User Routes
 Route::get('users', [UserController::class, 'index']);
 Route::get('users/{user}', [UserController::class, 'show']);
 Route::post('users', [UserController::class, 'store']);
 Route::put('users/{user}', [UserController::class, 'update']);
 Route::delete('users/{user}', [UserController::class, 'destroy']);
+//Vcard Routes
+Route::get('vcards', [VcardController::class, 'index']);
+Route::get('vcards/{vcard}', [VcardController::class, 'show']);
+Route::post('vcards', [VcardController::class, 'store']);
+Route::put('vcards/{vcard}', [VcardController::class, 'update']);
+Route::delete('vcards/{vcard}', [VcardController::class, 'destroy']);
 
 Route::middleware('auth:api')->post(
     'logout',

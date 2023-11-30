@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUpdateVcardRequest extends FormRequest
+class UpdateVcardRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,14 +22,14 @@ class StoreUpdateVcardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|min:3|max:20',
             'email' => 'required|email',
             'photo_url' => 'nullable|file|image',
-            'password' => 'required|string|max:255',
-            'confirmation_code' => 'nullable',
+            'password' => 'required|string|min:15',
+            'confirmation_code' => 'required|size:3',
             'blocked' => 'required|boolean',
-            'balance' => 'required|numeric',
-            'max_debit' => 'required|numeric',
+            'balance' => 'required|numeric|in:0',
+            'max_debit' => 'required|numeric|gt:0|lt:5000',
             'custom_options' => 'nullable',
             'custom_data' => 'nullable',
         ];
