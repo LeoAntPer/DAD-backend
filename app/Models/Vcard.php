@@ -25,7 +25,7 @@ class Vcard extends Model
         'custom_options',
         'custom_data'
     ];
-  
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -49,6 +49,7 @@ class Vcard extends Model
 
     public function getRouteKeyName(){
         return 'phone_number';
+    }
 
     function transactions()
     {
