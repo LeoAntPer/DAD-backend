@@ -20,6 +20,14 @@ Route::post('users', [UserController::class, 'store']);
 Route::put('users/{user}', [UserController::class, 'update']);
 Route::delete('users/{user}', [UserController::class, 'destroy']);
 
+Route::get('transactions', [TransactionController::class, 'index']);
+Route::get('transactions/{transaction}', [TransactionController::class, 'show']);
+Route::post('transactions', [TransactionController::class, 'store']);
+Route::put('transactions/{transaction}', [TransactionController::class, 'update']);
+Route::delete('transactions/{transaction}', [TransactionController::class, 'destroy']);
+
+
+
 Route::middleware('auth:api')->post(
     'logout',
     [AuthController::class, 'auth/logout']
