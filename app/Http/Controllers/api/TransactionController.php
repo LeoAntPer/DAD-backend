@@ -74,6 +74,9 @@ class TransactionController extends Controller
 
     public function destroy(Transaction $transaction)
     {
-        //TODO: delete pair transaction
+        if ($transaction->pairVcard->trashed()) {
+            $transaction->delete();
+        }
+        return new TransactionResource($transaction);
     }
 }
