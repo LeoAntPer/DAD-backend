@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('auth/login', [AuthController::class, 'login']);
 Route::middleware('auth:api')->group(function() {
     Route::apiResource('categories', CategoryController::class);
+    Route::get('auth/me', [AuthController::class, 'show_me']);
 });
 //User Routes
 Route::get('users', [UserController::class, 'index']);
@@ -34,9 +35,7 @@ Route::post('transactions', [TransactionController::class, 'store']);
 Route::put('transactions/{transaction}', [TransactionController::class, 'update']);
 Route::delete('transactions/{transaction}', [TransactionController::class, 'destroy']);
 
-
-
 Route::middleware('auth:api')->post(
-    'logout',
-    [AuthController::class, 'auth/logout']
+    'auth/logout',
+    [AuthController::class, 'logout']
 );
