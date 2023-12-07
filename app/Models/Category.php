@@ -28,6 +28,6 @@ class Category extends Model
 
     function vcard()
     {
-        return $this->belongsTo(Vcard::class);
+        return $this->belongsTo(Vcard::class, 'vcard', 'phone_number');
     }
 }

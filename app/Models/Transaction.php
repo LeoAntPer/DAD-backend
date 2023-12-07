@@ -35,14 +35,14 @@ class Transaction extends Model
         return $this->belongsTo(Category::class);
     }
 
-    function vcard()
+    function transaction_vcard()
     {
-        return $this->belongsTo(Vcard::class);
+        return $this->belongsTo(Vcard::class, 'vcard', 'phone_number');
     }
 
-    function pairVcard()
+    function pair_transaction_vcard()
     {
-        return $this->belongsTo(Vcard::class);
+        return $this->belongsTo(Vcard::class, 'pair_vcard', 'phone_number');
     }
 
     function pairTransaction()

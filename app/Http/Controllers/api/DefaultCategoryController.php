@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
-use Illuminate\Http\Request;
 use App\Models\DefaultCategory;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\DefaultCategoryResource;
 use App\Http\Requests\StoreUpdateDefaultCategoryRequest;
 
@@ -11,7 +11,7 @@ class DefaultCategoryController extends Controller
 {
     public function index()
     {
-        return DefaultCategory::paginate(10);
+        return DefaultCategoryResource::collection(DefaultCategory::all());
     }
 
     public function store(StoreUpdateDefaultCategoryRequest $request)

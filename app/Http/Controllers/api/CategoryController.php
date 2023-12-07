@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\api;
 
 use App\Models\Category;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use App\Http\Requests\StoreUpdateCategoryRequest;
@@ -13,7 +12,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        return Category::paginate(10);
+        return CategoryResource::collection(Category::all());
     }
 
     public function store(StoreUpdateCategoryRequest $request)
@@ -30,7 +29,6 @@ class CategoryController extends Controller
     public function update(StoreUpdateCategoryRequest $request, Category $category)
     {
         $category->update($request->validated());
-
         return new CategoryResource($category);
     }
 
@@ -41,7 +39,6 @@ class CategoryController extends Controller
         } else {
             $category->delete();
         }
-
         return new CategoryResource($category);
     }
 }

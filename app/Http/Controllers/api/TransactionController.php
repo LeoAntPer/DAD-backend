@@ -5,7 +5,6 @@ namespace App\Http\Controllers\api;
 use App\Models\Transaction;
 use App\Http\Controllers\Controller;
 use App\Models\Vcard;
-use Illuminate\Http\Request;
 use App\Http\Resources\TransactionResource;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
@@ -15,7 +14,7 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        return TransactionResource::collection(Transaction::all());
+        return TransactionResource::collection(Transaction::withTrashed()->get());
     }
 
     public function store(StoreTransactionRequest $request)
