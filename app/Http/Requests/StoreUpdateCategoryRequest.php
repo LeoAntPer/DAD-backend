@@ -22,7 +22,7 @@ class StoreUpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'vcard' => 'required|exists:vcard,id',
+            'vcard' => 'required|exists:vcards,phone_number',
             'type' => 'required|in:C,D',
             'name' => 'required|string|max:255',
             'custom_options' => 'nullable',
