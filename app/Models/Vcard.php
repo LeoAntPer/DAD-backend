@@ -53,7 +53,7 @@ class Vcard extends Model
 
     function transactions()
     {
-        return $this->hasMany(Transaction::class, 'vcard', 'phone_number');
+        return $this->hasMany(Transaction::class, 'vcard', 'phone_number')->orderBy('datetime', 'desc');
     }
 
     function transactionsPair()
