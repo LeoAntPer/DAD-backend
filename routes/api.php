@@ -34,6 +34,7 @@ Route::get('transactions/{transaction}', [TransactionController::class, 'show'])
 Route::post('transactions', [TransactionController::class, 'store']);
 Route::put('transactions/{transaction}', [TransactionController::class, 'update']);
 Route::delete('transactions/{transaction}', [TransactionController::class, 'destroy']);
+Route::get('vcards/{vcard}/transactions', [TransactionController::class, 'getTransactionsOfVCard']);
 
 Route::middleware('auth:api')->post(
     'auth/logout',

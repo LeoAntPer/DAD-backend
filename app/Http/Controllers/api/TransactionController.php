@@ -78,4 +78,8 @@ class TransactionController extends Controller
         }
         return new TransactionResource($transaction);
     }
+
+    public function getTransactionsOfVCard(Vcard $vcard) {
+        return TransactionResource::collection($vcard->transactions);
+    }
 }
