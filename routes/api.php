@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\auth\AuthController;
-use App\Http\Controllers\api\CategoryController;
-use App\Http\Controllers\api\DefaultCategoryController;
-use App\Http\Controllers\api\TransactionController;
-use App\Http\Controllers\api\UserController;
-use App\Http\Controllers\api\VcardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\api\VcardController;
+use App\Http\Controllers\auth\AuthController;
+use App\Http\Controllers\api\CategoryController;
+use App\Http\Controllers\api\StatisticController;
+use App\Http\Controllers\api\TransactionController;
+use App\Http\Controllers\api\DefaultCategoryController;
 
 Route::post('auth/login', [AuthController::class, 'login']);
 Route::middleware('auth:api')->group(function() {
@@ -36,6 +37,11 @@ Route::get('transactions/{transaction}', [TransactionController::class, 'show'])
 Route::post('transactions', [TransactionController::class, 'store']);
 Route::put('transactions/{transaction}', [TransactionController::class, 'update']);
 Route::delete('transactions/{transaction}', [TransactionController::class, 'destroy']);
+
+Route::get('statistics', [StatisticController::class, 'index']);
+Route::get('statistics/{id}', [StatisticController::class, 'show']);
+
+
 
 Route::middleware('auth:api')->post(
     'auth/logout',
