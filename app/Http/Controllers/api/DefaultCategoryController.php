@@ -31,9 +31,9 @@ class DefaultCategoryController extends Controller
         return new DefaultCategoryResource($defaultCategory);
     }
 
-    public function destroy(DefaultCategory $category)
+    public function destroy(DefaultCategory $defaultCategory)
     {
-        $category->delete();
-        return new DefaultCategoryResource($category);
+        $defaultCategory->delete();
+        return new DefaultCategoryResource($defaultCategory);
     }
 }
