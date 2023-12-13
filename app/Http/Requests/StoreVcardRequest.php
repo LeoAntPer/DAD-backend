@@ -30,7 +30,7 @@ class StoreVcardRequest extends FormRequest
             'confirmation_code' => 'required|size:3',
             'blocked' => 'required|boolean',
             'balance' => 'required|numeric|in:0',
-            'max_debit' => 'required|numeric|gt:0|lt:5000',
+            'max_debit' => 'required|numeric|gt:0|lt:5001',
             'custom_options' => 'nullable',
             'custom_data' => 'nullable',
         ];

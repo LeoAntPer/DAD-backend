@@ -22,14 +22,14 @@ class UpdateVcardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:3|max:20',
-            'email' => 'required|email',
+            'name' => 'string|min:3|max:20',
+            'email' => 'email',
             'photo_url' => 'nullable|file|image',
-            'password' => 'required|string|min:15',
-            'confirmation_code' => 'required|size:3',
-            'blocked' => 'required|boolean',
-            'balance' => 'required|numeric|in:0',
-            'max_debit' => 'required|numeric|gt:0|lt:5000',
+            'password' => 'string|min:15',
+            'confirmation_code' => 'size:3',
+            'blocked' => 'boolean',
+            'balance' => 'numeric|in:0',
+            'max_debit' => 'numeric',
             'custom_options' => 'nullable',
             'custom_data' => 'nullable',
         ];

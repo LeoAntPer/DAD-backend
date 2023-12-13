@@ -12,7 +12,7 @@ class VcardController extends Controller
 {
     public function index()
     {
-        return VcardResource::collection(Vcard::all());
+        return VcardResource::collection(Vcard::whereNull('deleted_at')->get());
     }
 
     public function store(StoreVcardRequest $request)
