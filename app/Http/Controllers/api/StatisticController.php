@@ -40,6 +40,13 @@ class StatisticController extends Controller
                 $total_transactions_by_month[$key][$key2] = $value->sum('total');
             }
         }
+        $novoArray = [];
+        foreach ($total_transactions_by_month as $ano => $meses) {
+            foreach ($meses as $mes => $valor) {
+                $novoArray["$mes/$ano"] = $valor;
+            }
+        }
+        $total_transactions_by_month = $novoArray;
         $total_balance = Vcard::sum('balance');
 
         return response()->json([
@@ -74,6 +81,13 @@ class StatisticController extends Controller
                 $balance_by_month[$key][$key2] = Transaction::select('new_balance')->where('id', $value[0]->last_id)->first()['new_balance'];
             }
         }
+        $novoArray = [];
+        foreach ($balance_by_month as $ano => $meses) {
+            foreach ($meses as $mes => $valor) {
+                $novoArray["$mes/$ano"] = $valor;
+            }
+        }
+        $balance_by_month = $novoArray;
 
         return response()->json([
             "num_recived_transactions" => $num_recived_transactions,
