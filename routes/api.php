@@ -38,8 +38,8 @@ Route::post('transactions', [TransactionController::class, 'store']);
 Route::put('transactions/{transaction}', [TransactionController::class, 'update']);
 Route::delete('transactions/{transaction}', [TransactionController::class, 'destroy']);
 
-Route::get('statistics', [StatisticController::class, 'index']);
-Route::get('statistics/{id}', [StatisticController::class, 'show']);
+Route::get('statistics', [StatisticController::class, 'getAdminStatistics']);
+Route::get('statistics/{id}', [StatisticController::class, 'getVcardStatistics']);
 
 
 

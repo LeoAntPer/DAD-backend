@@ -11,7 +11,7 @@ use App\Http\Resources\StatisticResource;
 
 class StatisticController extends Controller
 {
-    public function index()
+    public function getAdminStatistics()
     {
         $total_vcards = Vcard::withTrashed()->count();
         $total_active_vcards = Vcard::count();
@@ -60,7 +60,7 @@ class StatisticController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function getVcardStatistics($id)
     {
         $num_recived_transactions = Transaction::withTrashed()->where('pair_vcard', $id)->count();
         $total_received = Transaction::withTrashed()->where('pair_vcard', $id)->sum('value');
