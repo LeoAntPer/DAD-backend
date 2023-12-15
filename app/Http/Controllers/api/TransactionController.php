@@ -25,25 +25,27 @@ class TransactionController extends Controller
         $datetime = Carbon::now();
 
         $formData = $request->validated();
-        //dd($formData['type']);
 
         $formData['date'] = $date;
         $formData['datetime'] = $datetime;
         
         $currentBalance = Vcard::find($formData['vcard'])->balance;
         $formData['old_balance'] = $currentBalance;
-        $formData['new_balance'] = $currentBalance - $formData['value'];
+
+        $formData['new_balance'] = $formData['type'] == 'D' ? 
+            $currentBalance - $formData['value'] : $currentBalance + $formData['value'];;
         
         try {
-            $newTransaction = DB::transaction(function () use ($formData, $date, $datetime) {
+            $newTransaction = DB::transaction(function () use ($formData) {
                 $newTransaction = Transaction::create($formData);
-        
-                if ($formData['payment_type'] == 'VCARD') { // transaction vCard => vCard
+                
+                if ($formData['payment_type'] == 'VCARD' && $formData['type'] == 'D') { // transaction vCard => vCard
+                    $formData['pair_vcard'] = $formData['payment_reference'];
                     $pairCurrentBalance = Vcard::find($formData['pair_vcard'])->balance;
                     $newPairTransaction = Transaction::create([
                         'vcard' => $newTransaction->pair_vcard,
-                        'date' => $date,
-                        'datetime' => $datetime,
+                        'date' => $newTransaction->date,
+                        'datetime' => $newTransaction->datetime,
                         'type' => 'C',
                         'value' => $newTransaction->value,
                         'old_balance' => $pairCurrentBalance,
@@ -61,7 +63,7 @@ class TransactionController extends Controller
                     Transaction::where('id', $pairTransaction)->update(['pair_transaction' => $newTransaction->id]);
                     Vcard::where('phone_number', $newTransaction->pair_vcard)->update(['balance' => $newPairTransaction->new_balance]);
                 }
-                else { // transaction vCard => Payment Gateway Service
+                else { // transaction Payment Gateway Service
                     $pamentGatewayServiceUrl = 'https://dad-202324-payments-api.vercel.app/api/';
                     $operation = $formData['type'] == 'D' ? 'credit' : 'debit'; // opposite of vcard operation type
                     $requestUrl = $pamentGatewayServiceUrl.$operation;
