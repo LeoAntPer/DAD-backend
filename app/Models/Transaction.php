@@ -11,7 +11,7 @@ class Transaction extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'vcard',
