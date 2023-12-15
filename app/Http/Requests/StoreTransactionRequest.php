@@ -41,10 +41,11 @@ class StoreTransactionRequest extends FormRequest
                 'lte:' . $max_debit,
                 'lte:' . $balance,
             ],
+            'type' => 'required|in:D,C',
             'payment_type' => 'required|in:VCARD,MBWAY,PAYPAL,IBAN,MB,VISA',
             'payment_reference' => $this->payment_reference_rules(),
-            'pair_vcard' => 'required|exists:vcards,phone_number',
-            'category_id' => 'required|exists:categories,id',
+            'pair_vcard' => 'nullable|exists:vcards,phone_number',
+            'category_id' => 'nullable|exists:categories,id',
             'description' => 'nullable|string|max:255',
             'custom_options' => 'nullable',
             'custom_data' => 'nullable',
@@ -58,13 +59,13 @@ class StoreTransactionRequest extends FormRequest
         if ($payment_type == 'VCARD') {
             return 'required|numeric|regex:/^9\d{8}$/|exists:vcards,phone_number';
         } elseif ($payment_type == 'MBWAY') {
-            return 'required|numeric|regex:/^4\d{8}$/';
+            return 'required|numeric|regex:/^9\d{8}$/';
         } elseif ($payment_type == 'PAYPAL') {
             return 'required|email';
         } elseif ($payment_type == 'IBAN') {
             return 'required|regex:/^[A-Za-z]{2}\d{23}$/';
         } elseif ($payment_type == 'MB') {
-            return 'required|numeric|regex:/^\d{5}-\d{9}$/';
+            return 'required|regex:/^\d{5}-\d{9}$/';
         } else {
             return 'required|numeric|regex:/^4\d{15}$/';
         }
