@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\ViewAuthUserResource;
+use App\Models\ViewAuthUser;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
+use App\Http\Resources\ViewAuthUserResource;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
+        $user = ViewAuthUser::where('username', $request->username)->first();
+
         $passportData = [
             'grant_type' => 'password',
             'client_id' => env('PASSPORT_PASSWORD_GRANT_ID'),
@@ -26,9 +29,13 @@ class AuthController extends Controller
         $response = Route::dispatch($request);
         $errorCode = $response->getStatusCode();
 
-        if (
-            $errorCode == '200'
-        ) {
+        if ($errorCode == '200') {
+            if ($user && $user->blocked) {
+                return response()->json(
+                    ['msg' => 'User is blocked'],
+                    $errorCode
+                );
+            }
             return json_decode((string) $response->content(), true);
         } else {
             return response()->json(
