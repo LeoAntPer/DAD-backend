@@ -33,7 +33,20 @@ class StoreTransactionRequest extends FormRequest
         }
 
         return [
-            'vcard' => 'required|exists:vcards,phone_number',
+            'vcard' => [
+                'required',
+                'exists:vcards,phone_number',
+                function ($attribute, $value, $fail) {
+                    // Convert the numeric 'vcard' to a string
+                    $vcardAsString = (string) $value;
+    
+                    // Check if 'vcard' is different from 'payment_reference'
+                    $paymentReference = $this->input('payment_reference');
+                    if ($vcardAsString === $paymentReference) {
+                        $fail("The $attribute and payment_reference must have different values.");
+                    }
+                },
+            ],
             'value' => [
                 'required',
                 'numeric',
@@ -57,7 +70,22 @@ class StoreTransactionRequest extends FormRequest
         $payment_type = $this->input('payment_type');
 
         if ($payment_type == 'VCARD') {
-            return 'required|numeric|regex:/^9\d{8}$/|exists:vcards,phone_number';
+            return [
+                'required',
+                'numeric',
+                'regex:/^9\d{8}$/',
+                'exists:vcards,phone_number',
+                function ($attribute, $value, $fail) {
+                    // Convert the numeric 'vcard' to a string
+                    $vcardAsString = (string) $this->input('vcard');
+    
+                    // Check if 'vcard' is different from 'payment_reference'
+                    $paymentReference = $value;
+                    if ($vcardAsString === $paymentReference) {
+                        $fail("The $attribute and payment_reference must have different values.");
+                    }
+                },
+            ];
         } elseif ($payment_type == 'MBWAY') {
             return 'required|numeric|regex:/^9\d{8}$/';
         } elseif ($payment_type == 'PAYPAL') {
