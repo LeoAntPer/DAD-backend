@@ -23,7 +23,7 @@ class StoreVcardRequest extends FormRequest
     {
         return [
             'phone_number' => 'required|size:9',
-            'name' => 'required|string|min:3|max:20',
+            'name' => 'required|string|min:3|max:50',
             'email' => 'required|email',
             'photo_url' => 'nullable|file|image',
             'password' => 'required|string|min:10',

@@ -22,7 +22,7 @@ class UpdateVcardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|min:3|max:20',
+            'name' => 'string|min:3|max:50',
             'email' => 'email',
             'photo_url' => 'nullable|string',
             'password' => 'string|min:15',
