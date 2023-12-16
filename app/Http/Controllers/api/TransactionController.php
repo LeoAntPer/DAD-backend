@@ -37,11 +37,13 @@ class TransactionController extends Controller
         
         try {
             $newTransaction = DB::transaction(function () use ($formData) {
+                //dd($formData);
                 $newTransaction = Transaction::create($formData);
                 
-                if ($formData['payment_type'] == 'VCARD' && $formData['type'] == 'D') { // transaction vCard => vCard
-                    $formData['pair_vcard'] = $formData['payment_reference'];
-                    $pairCurrentBalance = Vcard::find($formData['pair_vcard'])->balance;
+                if ($newTransaction->payment_type == 'VCARD' && $newTransaction->type == 'D') { // transaction vCard => vCard
+                    $newTransaction->pair_vcard = $newTransaction->payment_reference;
+                    $newTransaction->save();
+                    $pairCurrentBalance = Vcard::find($newTransaction->pair_vcard)->balance;
                     $newPairTransaction = Transaction::create([
                         'vcard' => $newTransaction->pair_vcard,
                         'date' => $newTransaction->date,
