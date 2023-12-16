@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ViewAuthUserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,5 +45,10 @@ class AuthController extends Controller
         $token->revoke();
         $token->delete();
         return response(['msg' => 'Token revoked'], 200);
+    }
+
+    public function show_me(Request $request)
+    {
+        return new ViewAuthUserResource($request->user());
     }
 }
