@@ -28,7 +28,6 @@ class UpdateVcardRequest extends FormRequest
             'password' => 'string|min:15',
             'confirmation_code' => 'size:3',
             'blocked' => 'boolean',
-            'balance' => 'numeric',
             'max_debit' => 'numeric',
             'custom_options' => 'nullable',
             'custom_data' => 'nullable',
