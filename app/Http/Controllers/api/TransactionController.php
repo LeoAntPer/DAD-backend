@@ -112,4 +112,9 @@ class TransactionController extends Controller
     public function getTransactionsOfVCard(Vcard $vcard) {
         return TransactionResource::collection($vcard->transactions);
     }
+
+    public function getLatestVCardTransactions(Vcard $vcard)
+    {
+        return TransactionResource::collection(Transaction::where('vcard',$vcard->phone_number)->latest()->limit(3)->get());
+    }
 }

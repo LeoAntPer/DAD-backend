@@ -41,6 +41,7 @@ Route::post('transactions', [TransactionController::class, 'store']);
 Route::put('transactions/{transaction}', [TransactionController::class, 'update']);
 Route::delete('transactions/{transaction}', [TransactionController::class, 'destroy']);
 Route::get('vcards/{vcard}/transactions', [TransactionController::class, 'getTransactionsOfVCard']);
+Route::get('vcards/{vcard}/latest-transactions', [TransactionController::class, 'getLatestVCardTransactions']);
 
 Route::get('statistics', [StatisticController::class, 'getAdminStatistics']);
 Route::get('statistics/{id}', [StatisticController::class, 'getVcardStatistics']);
