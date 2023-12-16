@@ -23,5 +23,8 @@ class User extends Model
         'custom_data'
     ];
 
+    protected $casts = [
+        'password' => 'hashed'
+    ];
     
 }

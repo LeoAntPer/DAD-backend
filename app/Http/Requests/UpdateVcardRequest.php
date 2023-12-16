@@ -24,11 +24,11 @@ class UpdateVcardRequest extends FormRequest
         return [
             'name' => 'string|min:3|max:20',
             'email' => 'email',
-            'photo_url' => 'nullable|file|image',
+            'photo_url' => 'nullable|string',
             'password' => 'string|min:15',
             'confirmation_code' => 'size:3',
             'blocked' => 'boolean',
-            'balance' => 'numeric|in:0',
+            'balance' => 'numeric',
             'max_debit' => 'numeric',
             'custom_options' => 'nullable',
             'custom_data' => 'nullable',

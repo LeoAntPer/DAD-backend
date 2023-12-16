@@ -21,12 +21,15 @@ Route::get('users/{user}', [UserController::class, 'show']);
 Route::post('users', [UserController::class, 'store']);
 Route::put('users/{user}', [UserController::class, 'update']);
 Route::delete('users/{user}', [UserController::class, 'destroy']);
+Route::patch('users/{user}/password', [UserController::class, 'update_password']);
 //Vcard Routes
 Route::get('vcards', [VcardController::class, 'index']);
 Route::get('vcards/{vcard}', [VcardController::class, 'show']);
 Route::post('vcards', [VcardController::class, 'store']);
 Route::put('vcards/{vcard}', [VcardController::class, 'update']);
 Route::delete('vcards/{vcard}', [VcardController::class, 'destroy']);
+Route::patch('vcards/{vcard}/password', [VcardController::class, 'update_password']);
+Route::patch('vcards/{vcard}/confirmationCode', [VcardController::class, 'update_confirmation_code']);
 
 Route::resource('categories', CategoryController::class);
 
