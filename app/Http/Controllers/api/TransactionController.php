@@ -77,7 +77,7 @@ class TransactionController extends Controller
                     ]);
     
                     if ($response->status() != 201) {
-                        throw new \Exception($response->__toString());
+                        throw new \Exception(json_encode($response->json('message', 'Unknow error message')));
                     }
                 }
         
@@ -88,7 +88,25 @@ class TransactionController extends Controller
             return new TransactionResource($newTransaction);
         }
         catch (\Exception $e) {
-            return response($e->getMessage(), 422);
+            // Format the error message from PGS
+            $isReferenceRelated = "reference";
+            if (strpos($e->getMessage(), $isReferenceRelated) !== false) {
+                $message = 'The payment reference must be a valid reference.';
+                $field = 'payment_reference';
+            } else {
+                $message = 'The value limit was exceeded.';
+                $field = 'value';
+            }
+            $formattedError = [
+                'message' => $message,
+                'errors' => [
+                    $field => [
+                        json_decode($e->getMessage())
+                    ]
+                ], 
+            ];
+            
+            return response()->json($formattedError, 422);
         }
     }
 
