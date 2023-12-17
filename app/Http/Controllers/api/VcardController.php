@@ -10,6 +10,8 @@ use App\Http\Requests\UpdateVcardRequest;
 use App\Http\Requests\UpdateVCardPasswordRequest;
 use App\Http\Requests\UpdateVCardCodeRequest;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateBlockedVcardRequest;
+use Illuminate\Support\Facades\Hash;
 
 class VcardController extends Controller
 {
@@ -37,9 +39,14 @@ class VcardController extends Controller
 
     public function destroy(Vcard $vcard)
     {
-        $vcard->update(['blocked' => 1]);
-        $vcard->delete();
-        return new VcardResource($vcard);
+        // Check if the Vcard has transactions
+        if ($vcard->transactions()->exists()) {
+            // Soft delete if transactions exist
+            $vcard->delete();
+        } else {
+            // Hard delete if no transactions
+            $vcard->forceDelete();
+        }
     }
     public function update_password(UpdateVCardPasswordRequest $request, VCard $vcard)
     {
@@ -50,13 +57,63 @@ class VcardController extends Controller
 
     public function update_confirmation_code(Request $request, VCard $vcard)
     {
-        $validated = $request->validate([
+        $request->validate([
           'code' => ['required', 'confirmed', 'size:3'],
-          'current_code' => 'required|in:'.$vcard->confirmation_code
         ]);
+        
+        $receivedCode = $request->input('current_code');
+        echo($receivedCode);
+        if(!Hash::check($receivedCode, $vcard->confirmation_code)) {
+            
+            abort(422, 'Invalid current code');
+        }
         $codeInDB = $validated['code'];
         $vcard->confirmation_code = bcrypt($codeInDB);
         $vcard->save();
         return new VCardResource($vcard);
+    }
+
+    public function update_blocked(UpdateBlockedVcardRequest $request, VCard $vcard) {
+        $vcard->blocked = $request->validated()['blocked'];
+        $vcard->save();
+        return new VCardResource($vcard);
+    }
+
+    public function destroyWithCredentials(Request $request, Vcard $vcard)
+    {
+        $rPassword = $request->input('password');
+        $rCode = $request->input('code');
+        echo("Password\n");
+        echo($rPassword);
+        echo("\nCode\n");
+        echo($rCode);
+
+        // Validate the request data
+        $request->validate([
+            'password' => 'required',
+            'code' => 'required',
+        ]);
+
+        
+
+        // Check if the provided password and code are valid
+        if(!Hash::check($rPassword, $vcard->password)) {
+            abort(422, 'Invalid Password');
+        }
+        if(!Hash::check($rCode, $vcard->confirmation_code)) {
+            abort(422, 'Invalid Code');
+        }
+
+        // Check if the Vcard has transactions
+        if ($vcard->transactions()->exists()) {
+            // Soft delete if transactions exist
+            $vcard->delete();
+        } else {
+            // Hard delete if no transactions
+            $vcard->forceDelete();
+        }
+
+        // Additional logic or response as needed
+        return response()->json(['message' => 'Vcard deleted successfully']);
     }
 }

@@ -27,9 +27,11 @@ Route::get('vcards', [VcardController::class, 'index']);
 Route::get('vcards/{vcard}', [VcardController::class, 'show']);
 Route::post('vcards', [VcardController::class, 'store']);
 Route::put('vcards/{vcard}', [VcardController::class, 'update']);
-Route::delete('vcards/{vcard}', [VcardController::class, 'destroy']);
+Route::delete('vcards/{vcard}/admin', [VcardController::class, 'destroy']);
+Route::delete('vcards/{vcard}', [VcardController::class, 'destroyWithCredentials']);
 Route::patch('vcards/{vcard}/password', [VcardController::class, 'update_password']);
 Route::patch('vcards/{vcard}/confirmationCode', [VcardController::class, 'update_confirmation_code']);
+Route::patch('vcards/{vcard}/blocked', [VcardController::class, 'update_blocked']);
 
 Route::resource('categories', CategoryController::class);
 
