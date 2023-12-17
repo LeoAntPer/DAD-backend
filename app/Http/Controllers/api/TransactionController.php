@@ -11,6 +11,7 @@ use App\Http\Requests\UpdateTransactionRequest;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Hash;
 
 class TransactionController extends Controller
 {
@@ -21,10 +22,23 @@ class TransactionController extends Controller
 
     public function store(StoreTransactionRequest $request)
     {
+        // check valid confirmation code
+        $formData = $request->validated();
+        if ($formData['type'] == 'D' && !Hash::check($formData['confirmation_code'], VCard::find($formData['vcard'])->confirmation_code)) {
+            $formattedError = [
+                'message' => 'Invalid confirmation code',
+                'errors' => [
+                    'confirmation_code' => [
+                        'Incorret confirmation code.'
+                    ]
+                ], 
+            ];
+            return response()->json($formattedError, 422);
+        }
+        
+        
         $date = Carbon::today();
         $datetime = Carbon::now();
-
-        $formData = $request->validated();
 
         $formData['date'] = $date;
         $formData['datetime'] = $datetime;
@@ -105,7 +119,7 @@ class TransactionController extends Controller
                     ]
                 ], 
             ];
-            
+
             return response()->json($formattedError, 422);
         }
     }

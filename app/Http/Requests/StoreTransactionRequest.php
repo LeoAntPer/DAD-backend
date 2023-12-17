@@ -32,6 +32,11 @@ class StoreTransactionRequest extends FormRequest
             $balance = 0;
         }
 
+        $confirmation_code_rules = 'required_if:type,D';
+        if ($this->input('type') == 'D') {
+            $confirmation_code_rules .= '|size:3';
+        }
+
         return [
             'vcard' => [
                 'required',
@@ -42,7 +47,7 @@ class StoreTransactionRequest extends FormRequest
     
                     // Check if 'vcard' is different from 'payment_reference'
                     $paymentReference = $this->input('payment_reference');
-                    if ($vcardAsString === $paymentReference) {
+                    if ($this->input('payment_type') == 'VCARD' && $vcardAsString === $paymentReference) {
                         $fail("The $attribute and payment_reference must have different values.");
                     }
                 },
@@ -62,6 +67,7 @@ class StoreTransactionRequest extends FormRequest
             'description' => 'nullable|string|max:255',
             'custom_options' => 'nullable',
             'custom_data' => 'nullable',
+            'confirmation_code' => $confirmation_code_rules
         ];
     }
 
@@ -107,7 +113,8 @@ class StoreTransactionRequest extends FormRequest
             'payment_type' => 'The payment type must be a valid type.',
             'payment_reference' => 'The payment reference must be a valid reference.',
             'pair_vcard' => 'The pair vcard must be a valid phone number.',
-            'category_id' => 'The category id must be a valid id.'
+            'category_id' => 'The category id must be a valid id.',
+            'confirmation_code' => 'The confirmation code is required.'
         ];
     }
 }
