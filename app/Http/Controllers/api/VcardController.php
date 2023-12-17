@@ -8,7 +8,9 @@ use App\Http\Resources\VcardResource;
 use App\Http\Requests\StoreVcardRequest;
 use App\Http\Requests\UpdateVcardRequest;
 use App\Http\Requests\UpdateVCardPasswordRequest;
-use App\Http\Requests\UpdateVCardCodeRequest;
+use App\Models\Category;
+use App\Models\DefaultCategory;
+
 use Illuminate\Http\Request;
 
 class VcardController extends Controller
@@ -21,6 +23,15 @@ class VcardController extends Controller
     public function store(StoreVcardRequest $request)
     {
         $newVcard = Vcard::create($request->validated());
+        $defaultCategories = DefaultCategory::all();
+        foreach ($defaultCategories as $category)
+        {
+            $newCat = new Category();
+            $newCat['vcard']   = $request->phone_number;
+            $newCat['type']   = $category->type;
+            $newCat['name']   = $category->name;
+            $newCat->save();
+        }
         return new VcardResource($newVcard);
     }
 
