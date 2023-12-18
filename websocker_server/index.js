@@ -13,8 +13,8 @@ httpServer.listen(5174, () => {
 io.on("connection", (socket) => {
     console.log(`client ${socket.id} has connected`);
 
-    socket.on('newTransaction', function () {
-        socket.in('vcard').emit('newTransaction')
+    socket.on('newTransaction', function (transaction) {
+        socket.in('vcard').emit('newTransaction', transaction)
     })
 
     socket.on('insertedUser', function (user) {
