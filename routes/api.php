@@ -11,6 +11,8 @@ use App\Http\Controllers\api\TransactionController;
 use App\Http\Controllers\api\DefaultCategoryController;
 
 Route::post('auth/login', [AuthController::class, 'login']);
+Route::post('vcards', [VcardController::class, 'store']);
+
 Route::middleware('auth:api')->group(function() {
     Route::apiResource('categories', CategoryController::class);
     Route::get('auth/me', [AuthController::class, 'show_me']);
@@ -25,7 +27,7 @@ Route::patch('users/{user}/password', [UserController::class, 'update_password']
 //Vcard Routes
 Route::get('vcards', [VcardController::class, 'index']);
 Route::get('vcards/{vcard}', [VcardController::class, 'show']);
-Route::post('vcards', [VcardController::class, 'store']);
+
 Route::put('vcards/{vcard}', [VcardController::class, 'update']);
 Route::delete('vcards/{vcard}/admin', [VcardController::class, 'destroy']);
 Route::delete('vcards/{vcard}', [VcardController::class, 'destroyWithCredentials']);
@@ -33,6 +35,8 @@ Route::patch('vcards/{vcard}/password', [VcardController::class, 'update_passwor
 Route::patch('vcards/{vcard}/confirmationCode', [VcardController::class, 'update_confirmation_code']);
 Route::patch('vcards/{vcard}/blocked', [VcardController::class, 'update_blocked']);
 
+
+Route::get('vcards/{vcard}/categories', [CategoryController::class, 'categoryByVcard']);
 Route::resource('categories', CategoryController::class);
 
 Route::resource('defaultCategories', DefaultCategoryController::class);

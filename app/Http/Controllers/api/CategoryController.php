@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Models\Vcard;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
@@ -9,6 +10,10 @@ use App\Http\Requests\StoreUpdateCategoryRequest;
 
 class CategoryController extends Controller
 {
+    public function categoryByVcard(Vcard $vcard)
+    {
+        return CategoryResource::collection($vcard->categories);
+    }
 
     public function index()
     {
