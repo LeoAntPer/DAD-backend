@@ -56,6 +56,7 @@ class VcardController extends Controller
             $vcard->delete();
         } else {
             // Hard delete if no transactions
+            Category::where('vcard',$vcard->phone_number)->forceDelete();
             $vcard->forceDelete();
         }
     }
