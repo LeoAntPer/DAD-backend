@@ -21,3 +21,6 @@ yarn-error.log
 storage/logs/laravel.log
 database/seeders/VCardsTableSeeder.php
 database/seeders/VCardsTableSeeder.php
+/mysql-logs
+.rnd
+composer.lock
